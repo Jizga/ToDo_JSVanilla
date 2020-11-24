@@ -17,6 +17,10 @@ let tareas = {
     estado: false,
   },
 };
+//Local Storage de las tareas de defecto
+document.addEventListener("DOMContentLoaded", () => {
+  pintarTareas();
+});
 
 //Añadir la nueva tarea mediante el DOM
 formulario.addEventListener("submit", (e) => {
