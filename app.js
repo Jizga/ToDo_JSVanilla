@@ -17,8 +17,12 @@ let tareas = {
     estado: false,
   },
 };
-//Local Storage de las tareas de defecto
+//Tareas de defecto
 document.addEventListener("DOMContentLoaded", () => {
+  //LocalStorage:
+  if (localStorage.getItem("tareas")) {
+    tareas = JSON.parse(localStorage.getItem("tareas"));
+  }
   pintarTareas();
 });
 
@@ -55,6 +59,9 @@ const setTarea = (e) => {
 };
 
 const pintarTareas = () => {
+  //Guardar las tareas en el LocalStorage
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+
   //Mensaje de Tareas no pendientes
   if (Object.values(tareas).length === 0) {
     listaTarea.innerHTML = ` 
