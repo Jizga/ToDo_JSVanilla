@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   pintarTareas();
 });
 
+listaTarea.addEventListener("click", (e) => {
+  btnAccion(e);
+});
+
 //Añadir la nueva tarea mediante el DOM
 formulario.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -56,7 +60,26 @@ const pintarTareas = () => {
   Object.values(tareas).forEach((tarea) => {
     const clone = template.cloneNode(true);
     clone.querySelector("p").textContent = tarea.texto;
+    clone.querySelectorAll(".fas")[0].dataset.id = tarea.id;
+    clone.querySelectorAll(".far")[0].dataset.id = tarea.id;
     fragment.appendChild(clone);
   });
   listaTarea.appendChild(fragment);
+};
+
+const btnAccion = (e) => {
+  if (e.target.classList.contains("fa-check-circle")) {
+    //Cambiar el estado de las tareas a hecha
+    tareas[e.target.dataset.id].estado = true;
+    pintarTareas();
+    console.log(tareas)
+  }
+  //Eliminar tarea
+  if (e.target.classList.contains("fa-minus-circle")) {
+    delete tareas[e.target.dataset.id];
+    pintarTareas();
+    console.log(tareas);
+  }
+
+  e.stopPropagation();
 };
