@@ -55,13 +55,38 @@ const setTarea = (e) => {
 };
 
 const pintarTareas = () => {
+  //Mensaje de Tareas no pendientes
+  if (Object.values(tareas).length === 0) {
+    listaTarea.innerHTML = ` 
+  <div class="alert alert-dark text-center">
+  No hay tareas pendientes 😍
+  </div>`;
+    return;
+  }
+
   //Para que la lista no se duplique debe de partir de cero (limpiar el DOM)
   listaTarea.innerHTML = "";
   Object.values(tareas).forEach((tarea) => {
+    //**** Muy IMPORTANTE clonar antes de modificar el template ****/
     const clone = template.cloneNode(true);
     clone.querySelector("p").textContent = tarea.texto;
+
+    if (tarea.estado) {
+      //Cambiar el fondo de la tarea hecha
+      clone
+        .querySelector(".alert")
+        .classList.replace("alert-warning", "alert-primary");
+      //Sustituir el botón check por la rueda
+      clone
+        .querySelectorAll(".fas")[0]
+        .classList.replace("fa-check-circle", "fa-undo-alt");
+
+      //Tachar la tarea hecha
+      clone.querySelector("p").style.textDecoration = "Line-through";
+    }
+
     clone.querySelectorAll(".fas")[0].dataset.id = tarea.id;
-    clone.querySelectorAll(".far")[0].dataset.id = tarea.id;
+    clone.querySelectorAll(".fas")[1].dataset.id = tarea.id;
     fragment.appendChild(clone);
   });
   listaTarea.appendChild(fragment);
@@ -72,13 +97,17 @@ const btnAccion = (e) => {
     //Cambiar el estado de las tareas a hecha
     tareas[e.target.dataset.id].estado = true;
     pintarTareas();
-    console.log(tareas)
   }
   //Eliminar tarea
   if (e.target.classList.contains("fa-minus-circle")) {
     delete tareas[e.target.dataset.id];
     pintarTareas();
-    console.log(tareas);
+  }
+
+  //Sustituir el botón de la rueda por el botón check
+  if (e.target.classList.contains("fa-undo-alt")) {
+    tareas[e.target.dataset.id].estado = false;
+    pintarTareas();
   }
 
   e.stopPropagation();
