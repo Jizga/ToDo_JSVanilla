@@ -3,7 +3,20 @@ const input = document.getElementById("input");
 const listaTarea = document.getElementById("lista-tarea");
 const template = document.getElementById("template").content;
 const fragment = document.createDocumentFragment();
-let tareas = {};
+
+//Tareas por defecto
+let tareas = {
+  1606231033718: {
+    id: 1606231033718,
+    texto: "Tarea 1",
+    estado: false,
+  },
+  1606231151976: {
+    id: 1606231151976,
+    texto: "Tarea 2",
+    estado: false,
+  },
+};
 
 //Añadir la nueva tarea mediante el DOM
 formulario.addEventListener("submit", (e) => {
